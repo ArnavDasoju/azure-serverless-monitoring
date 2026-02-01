@@ -1,0 +1,25 @@
+import logging
+import azure.functions as func
+import random
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
+
+@app.route(route="monitor")
+def monitor(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info("Monitor function invoked successfully.")
+
+    # Randomly simulate an error (30% chance)
+    if random.random() < 0.3:
+        try:
+            raise Exception("SIMULATED_APP_ERROR: Something went wrong")
+        except Exception as e:
+            logging.error(str(e))
+            return func.HttpResponse(
+                "Error logged successfully",
+                status_code=500
+            )
+
+    return func.HttpResponse(
+        "Function executed without errors",
+        status_code=200
+    )
