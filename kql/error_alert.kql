@@ -1,0 +1,2 @@
+AppTraces
+| where Message has "SIMULATED_APP_ERROR"
